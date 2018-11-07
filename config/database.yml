@@ -80,8 +80,9 @@ test:
 #
 production:
   <<: *default
-  hostname: <%= ENV['DATABASE_HOSTNAME'] %>
-  port: <%= ENV['DATABASE_PORT'] %>
+  encoding: utf8
+# hostname: <%= ENV['DATABASE_HOSTNAME'] %>
+# port: <%= ENV['DATABASE_PORT'] %>
   database: <%= ENV['DATABASE_NAME'] %>
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>

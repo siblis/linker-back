@@ -14,8 +14,8 @@ class LinksController < ApplicationController
 
   # POST /collections/:collection_url/links
   def create
-    @collection.links.create!(link_params)
-    json_response(@collection, :created)
+    new_link = @collection.links.create!(link_params)
+    json_response(new_link, :created)
   end
 
   # PUT /collections/:collection_url/links/:id

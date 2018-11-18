@@ -23,7 +23,7 @@ users = User.create! hash_users
 hash_collections = 20.times.map do
   {
     name: FFaker::CheesyLingo.title,
-    url: FFaker::InternetSE.http_url,
+    url: FFaker::InternetSE.password,
     comment: FFaker::CheesyLingo.sentence,
     user: users.sample
   }

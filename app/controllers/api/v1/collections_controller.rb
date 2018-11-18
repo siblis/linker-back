@@ -4,7 +4,7 @@ class Api::V1::CollectionsController < ApplicationController
   # GET /collections
   def index
     @collections = Collection.all
-    json_response(@collections)
+    json_response(@collections, :ok)
   end
 
   # POST /collections
@@ -15,7 +15,7 @@ class Api::V1::CollectionsController < ApplicationController
 
   # GET /collections/:url
   def show
-    json_response(@collection)
+    json_response(@collection, :ok)
   end
 
   # PUT /collections/:url

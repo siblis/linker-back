@@ -4,12 +4,12 @@ class Api::V1::LinksController < ApplicationController
 
   # GET /collections/:collection_url/links
   def index
-    json_response(@collection.links)
+    json_response(@collection.links, :ok)
   end
 
   # GET /collections/:collection_url/links/:id
   def show
-    json_response(@link)
+    json_response(@link, :ok)
   end
 
   # POST /collections/:collection_url/links

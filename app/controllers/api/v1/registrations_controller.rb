@@ -6,7 +6,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
     if user.save
 
-      render json: user.as_json(auth_token: user.authentication_token, email: user.email), status: 201
+      json_response(user.as_json(auth_token: user.authentication_token, email: user.email), 201)
 
       return
 
@@ -14,7 +14,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
       warden.custom_failure!
 
-      render json: user.errors, status: 422
+      json_response(user.errors, 422)
 
     end
   end

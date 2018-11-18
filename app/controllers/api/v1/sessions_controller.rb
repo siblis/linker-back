@@ -11,11 +11,11 @@ class Api::V1::SessionsController < Devise::SessionsController
     user = User.find_by(email: params[:email])
     unless user.nil?
       if user.valid_password? params[:password]
-        render json: user
+        json_response(user, 302)
         return
       end
     end
-    render json: '{"error": "invalid email and password combination"}'
+    json_response('{"error": "invalid email and password combination"}' , 422)
   end
 
   def destroy
@@ -27,11 +27,11 @@ class Api::V1::SessionsController < Devise::SessionsController
   def ensure_params_exist
     return unless params[:email].blank?
 
-    render json: { success: false, message: 'missing user_login parameter' }, status: 422
+    json_response('{"error": "missing user_email parameter"}', 422)
   end
 
   def invalid_login_attempt
     warden.custom_failure!
-    render json: { success: false, message: 'Error with your login or password' }, status: 401
+    json_response('{"error": "error with login or password"}', 401)
   end
 end

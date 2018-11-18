@@ -6,7 +6,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
     if user.save
 
-      render :json => user.as_json(:auth_token => user.authentication_token, :email => user.email), :status => 201
+      render json: user.as_json(auth_token: user.authentication_token, email: user.email), status: 201
 
       return
 
@@ -14,14 +14,14 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
 
       warden.custom_failure!
 
-      render :json => user.errors, :status => 422
+      render json: user.errors, status: 422
 
     end
-    end
+  end
 
   private
 
   def user_paramssignup
     params.require(:user).permit(:email, :password, :password_confirmation)
-    end
+  end
 end

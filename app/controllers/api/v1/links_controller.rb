@@ -37,10 +37,10 @@ class Api::V1::LinksController < ApplicationController
   end
 
   def set_collection
-    @collection = Collection.find_by(url: params[:collection_url])
+    @collection = Collection.find(params[:collection_url])
   end
 
   def set_collection_link
-    @link = @collection.links.find_by!(id: params[:id]) if @collection
+    @link = @collection.links.find!(params[:id]) if @collection
   end
 end

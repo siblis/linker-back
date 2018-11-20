@@ -37,6 +37,6 @@ class Api::V1::CollectionsController < ApplicationController
   end
 
   def set_collection
-    @collection = Collection.find(params[:url])
+    @collection = Collection.find_by(url: params[:url])
   end
 end

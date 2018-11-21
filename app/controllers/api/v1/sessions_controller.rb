@@ -2,6 +2,7 @@ class Api::V1::SessionsController < Devise::SessionsController
   include ActionController::Helpers
   include ActionController::Flash
   include ActionController::MimeResponds
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
   prepend_before_action :require_no_authentication, only: :create
   before_action :ensure_params_exist, only: :create
 
@@ -18,8 +19,10 @@ class Api::V1::SessionsController < Devise::SessionsController
     json_response('{"error": "invalid email and password combination"}' , 422)
   end
 
+
   def destroy
-    sign_out_and_redirect(current_user)
+    current_user.reset_authentication_token!
+    head :ok
   end
 
   protected
@@ -34,4 +37,12 @@ class Api::V1::SessionsController < Devise::SessionsController
     warden.custom_failure!
     json_response('{"error": "error with login or password"}', 401)
   end
+
+  private
+
+  def current_user
+    authenticate_with_http_token do |token, options|
+      User.find_by(authentication_token: token)
+    end
+  end 
 end

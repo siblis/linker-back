@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         resources :links
       end
       devise_scope :user do
-        post '/sign_in', to: 'sessions#create'
+        post 'sign_in', to: 'sessions#create'
         post '/sign_up', to: 'registrations#create'
         delete '/sign_out', to: 'sessions#destroy'
       end

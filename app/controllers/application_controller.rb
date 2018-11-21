@@ -5,7 +5,6 @@ class ApplicationController < ActionController::API
   include ActionController::Flash
   include Response
   include ExceptionHandler
-
   private
 
   def current_user

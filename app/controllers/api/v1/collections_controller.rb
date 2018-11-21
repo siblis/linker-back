@@ -1,13 +1,12 @@
 class Api::V1::CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
   acts_as_token_authentication_handler_for User, except: [:show]
-
+  
   # GET /collections
   def index
     @collections = Collection.all
     json_response(@collections, :ok)
   end
-
   # POST /collections
   def create
     @collection = Collection.create!(collection_params)

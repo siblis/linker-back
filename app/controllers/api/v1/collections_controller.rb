@@ -1,12 +1,12 @@
 class Api::V1::CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
-
+  acts_as_token_authentication_handler_for User, except: [:show]
+  
   # GET /collections
   def index
     @collections = Collection.all
-    json_response(@collections)
+    json_response(@collections, :ok)
   end
-
   # POST /collections
   def create
     @collection = Collection.create!(collection_params)
@@ -15,7 +15,7 @@ class Api::V1::CollectionsController < ApplicationController
 
   # GET /collections/:url
   def show
-    json_response(@collection)
+    json_response(@collection, :ok)
   end
 
   # PUT /collections/:url
@@ -37,6 +37,6 @@ class Api::V1::CollectionsController < ApplicationController
   end
 
   def set_collection
-    @collection = Collection.find(params[:url])
+    @collection = Collection.find_by(url: params[:url])
   end
 end

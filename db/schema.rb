@@ -9,8 +9,8 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-
-ActiveRecord::Schema.define(version: 20_181_117_145_355) do
+20181121102750
+ActiveRecord::Schema.define(version: 2018_11_21_102750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20_181_117_145_355) do
   end
 
   create_table 'users', comment: 'Users table', force: :cascade do |t|
-    t.string 'login', comment: 'User`s login'
     t.string 'password', comment: 'User`s password'
     t.string 'name', comment: 'User`s name'
     t.datetime 'created_at', null: false

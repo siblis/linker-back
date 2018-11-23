@@ -1,37 +1,58 @@
-class Api::V1::SessionsController < Devise::SessionsController
+class Api::V1::SessionsController < Devise::SessionsController 
+
   include ActionController::Helpers
   include ActionController::Flash
   include ActionController::MimeResponds
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false 
   prepend_before_action :require_no_authentication, only: :create
   before_action :ensure_params_exist, only: :create
-
+  skip_before_action :verify_signed_out_user
   respond_to :json
-
   def create
     user = User.find_by(email: params[:email])
     unless user.nil?
       if user.valid_password? params[:password]
-        render json: user
+        #json_response(user, 302)
+        render json:{ token: user.authentication_token, status: 302 }
         return
       end
     end
-    render json: '{"error": "invalid email and password combination"}'
+    #json_response('{"error": "invalid email and password combination"}' , 422)
+    render json:{ token: nil, status: 422 }
   end
+
 
   def destroy
-    sign_out_and_redirect(current_user)
-  end
+    user = User.find_by(authentication_token: params[:user_token])
 
+    if user.nil?
+      render status: 404, json: { message: 'Invalid token.' }
+    else
+      user.reset_authentication_token!
+      render status: 204, json: nil
+    end
+   super
+   #sign_out(current_user)
+  end
+  
   protected
 
   def ensure_params_exist
     return unless params[:email].blank?
 
-    render json: { success: false, message: 'missing user_login parameter' }, status: 422
+    json_response('{"error": "missing user_email parameter"}', 422)
   end
 
   def invalid_login_attempt
     warden.custom_failure!
-    render json: { success: false, message: 'Error with your login or password' }, status: 401
+    json_response('{"error": "error with login or password"}', 401)
   end
+
+  private
+
+  def current_user
+    authenticate_with_http_token do |token, options|
+      User.find_by(authentication_token: token)
+    end
+  end 
 end

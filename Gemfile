@@ -7,7 +7,7 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
+
 gem 'devise'
 gem 'puma', '~> 3.11'
 gem 'simple_token_authentication', '~> 1.0'
@@ -26,7 +26,7 @@ gem 'simple_token_authentication', '~> 1.0'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

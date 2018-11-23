@@ -5,4 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :collections, dependent: :destroy
   acts_as_token_authenticatable
+
+  def reset_authentication_token!
+    update_column(:authentication_token, Devise.friendly_token)
+  end
 end

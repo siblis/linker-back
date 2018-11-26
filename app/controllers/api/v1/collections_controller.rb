@@ -1,42 +1,78 @@
 class Api::V1::CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
-  acts_as_token_authentication_handler_for User, except: [:show]
+  acts_as_token_authentication_handler_for User, fallback_to_devise: false
+
+  #before_action :authenticate_user!
   
   # GET /collections
   def index
-    @collections = Collection.all
-    json_response(@collections, :ok)
+    if current_user
+      @collections = current_user.collections
+      render json: @collections.as_json(:include => :links, except: :user_id), status: 200
+    else
+      render status: 404
+    end
   end
+
   # POST /collections
   def create
-    @collection = Collection.create!(collection_params)
-    json_response(@collection, :created)
+    @collection = Collection.create(collection_params)
+    #@collection.name = params[:name]
+    #@collection.comment = params[:comment]
+    @collection.user_id = current_user.id
+    @collection.url = SecureRandom.urlsafe_base64
+    #if params[:links]
+    #  @collection.links = params[:links]
+    #else
+    #  @collection.links = []
+    #end
+    @collection.save
+    render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, :except => [:id, :user_id, :created_at, :updated_at]), status: 200
+    #render json: @collection, status: 200
   end
 
-  # GET /collections/:url
+  # GET /collections/:id
   def show
-    json_response(@collection, :ok)
+    if @collection.user_id == current_user.id
+      render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
+    else
+      render status: 404
+    end
   end
 
-  # PUT /collections/:url
+  # PUT /collections/:id
   def update
-    @collection.update(collection_params)
-    head :no_content
+    if @collection.user_id == current_user.id
+      @collection.links.destroy_all
+      @collection.update(collection_params)
+      render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
+    else
+      render status: 404
+    end
   end
 
-  # DELETE /collections/:url
+  # DELETE /collections/:id
   def destroy
-    @collection.destroy
-    head :no_content
+    if @collection.user_id == current_user.id
+      @collection.destroy
+      render status: 200
+    else
+      render status: 404
+    end
   end
 
   private
 
   def collection_params
-    params.permit(:name, :url, :comment, :user_id)
+    params[:links_attributes] = params.delete(:links)
+    params.permit(:name, :comment, links_attributes: [:name, :url, :comment])
   end
 
   def set_collection
-    @collection = Collection.find_by(url: params[:url])
+    @collection = Collection.find(params[:id])
+  end
+
+  def current_user
+    User.find_by(authentication_token: params[:user_token])
   end
 end

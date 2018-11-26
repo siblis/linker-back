@@ -4,9 +4,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :problems
       resources :services
-      resources :collections, param: :url do
+      resources :collections do
         resources :links
       end
+      get 'collection/:url', to: 'public_collections#show'
       devise_scope :user do
         post 'sign_in', to: 'sessions#create'
         post '/sign_up', to: 'registrations#create'

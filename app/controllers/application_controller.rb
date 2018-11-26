@@ -3,6 +3,7 @@ class ApplicationController < ActionController::API
   include ActionController::ImplicitRender
   include ActionController::Helpers
   include ActionController::Flash
+  include ActionController::MimeResponds
   include Response
   include ExceptionHandler
   respond_to :html
@@ -16,7 +17,7 @@ class ApplicationController < ActionController::API
       user = User.find_by_email(user_email)
       return user
     else
-      render json: '{"success" : "false"}'
+      #render json: '{"success" : "false"}'
     end
   end
 

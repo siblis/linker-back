@@ -24,22 +24,19 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def destroy
     user = User.find_by(authentication_token: params[:user_token])
-
     if user.nil?
       render status: 404, json: { message: 'Invalid token.' }
     else
       user.reset_authentication_token!
       render status: 204, json: nil
     end
-   super
-   #sign_out(current_user)
+    super
   end
   
   protected
 
   def ensure_params_exist
     return unless params[:email].blank?
-
     json_response('{"error": "missing user_email parameter"}', 422)
   end
 
@@ -51,8 +48,8 @@ class Api::V1::SessionsController < Devise::SessionsController
   private
 
   def current_user
-    authenticate_with_http_token do |token, options|
-      User.find_by(authentication_token: token)
+    authenticate_with_http_token do |token,options|
+      User.find_by(authnettication_token: token)
     end
   end 
 end

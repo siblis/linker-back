@@ -21,14 +21,12 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       else
         render json:{ error: user.errors }
       end
-      #json_response(user.errors, 422)
     end
   end
 
   private
 
   def user_paramssignup
-    #params.require(:user).permit(:email, :password, :password_confirmation)
     params.permit(:email, :password, :password_confirmation)
   end
 end

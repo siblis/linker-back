@@ -8,10 +8,12 @@ Rails.application.routes.draw do
         resources :links
       end
       get 'collection/:url', to: 'public_collections#show'
+      #put 'profile/password', to: 'passwords#change'
       devise_scope :user do
         post 'sign_in', to: 'sessions#create'
         post '/sign_up', to: 'registrations#create'
         delete '/sign_out', to: 'sessions#destroy'
+        put 'profile/password', to: 'passwords#change'
       end
     end
   end

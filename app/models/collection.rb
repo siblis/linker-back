@@ -3,7 +3,7 @@ class Collection < ApplicationRecord
   has_many :links, dependent: :destroy
   accepts_nested_attributes_for :links
 
-  #def as_json(options={})
-  #  super(:include => :links)
-  #end
+  def as_json(options={})
+    super(include: { links: { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at])
+  end
 end

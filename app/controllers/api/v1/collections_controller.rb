@@ -1,7 +1,6 @@
 class Api::V1::CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
-
   #before_action :authenticate_user!
   
   # GET /collections
@@ -17,24 +16,16 @@ class Api::V1::CollectionsController < ApplicationController
   # POST /collections
   def create
     @collection = Collection.create(collection_params)
-    #@collection.name = params[:name]
-    #@collection.comment = params[:comment]
     @collection.user_id = current_user.id
     @collection.url = SecureRandom.urlsafe_base64
-    #if params[:links]
-    #  @collection.links = params[:links]
-    #else
-    #  @collection.links = []
-    #end
     @collection.save
-    render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, :except => [:id, :user_id, :created_at, :updated_at]), status: 200
-    #render json: @collection, status: 200
+    render json: @collection.as_json(include: { links: { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
   end
 
   # GET /collections/:id
   def show
     if @collection.user_id == current_user.id
-      render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
+      render json: @collection.as_json(include: { links: { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
     else
       render status: 404
     end
@@ -45,7 +36,7 @@ class Api::V1::CollectionsController < ApplicationController
     if @collection.user_id == current_user.id
       @collection.links.destroy_all
       @collection.update(collection_params)
-      render json: @collection.as_json(:include => { :links => { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
+      render json: @collection.as_json(include: { links: { only: [:name, :url, :comment] } }, except: [:id, :user_id, :created_at, :updated_at]), status: 200
     else
       render status: 404
     end

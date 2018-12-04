@@ -7,7 +7,8 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
-
+# For rake cron
+gem 'whenever', require: false
 gem 'devise'
 gem 'puma', '~> 3.11'
 gem 'simple_token_authentication', '~> 1.0'

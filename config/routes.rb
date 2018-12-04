@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :collections do
         resources :links
       end
+      get 'thumbs', to: 'tumbs#show'
       get 'collection/:url', to: 'public_collections#show'
       #put 'profile/password', to: 'passwords#change'
       devise_scope :user do

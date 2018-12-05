@@ -1,5 +1,4 @@
 SimpleTokenAuthentication.configure do |config|
-
   # Configure the session persistence policy after a successful sign in,
   # in other words, if the authentication token acts as a signin token.
   # If true, user is stored in the session and the authentication token and
@@ -18,8 +17,8 @@ SimpleTokenAuthentication.configure do |config|
   #           when case_insensitive_key is set to false
   # config.case_insensitive_key = false
   #
-  # 
-  # 
+  #
+  #
 
   # Configure the name of the HTTP headers watched for authentication.
   #
@@ -39,10 +38,10 @@ SimpleTokenAuthentication.configure do |config|
   #   And the token authentification handler for SuperAdmin watches the following headers:
   #     `X-Admin-Auth-Token, X-SuperAdmin-Email`
   #
-   config.header_names = { user: { authentication_token: 'X-User-Token', email: 'X-User-Email' } }
+  config.header_names = { user: { authentication_token: 'X-User-Token', email: 'X-User-Email' } }
   #
   # You can change header names the user key from email to username for example.
-  # Example: 
+  # Example:
   #    config.header_names = { user: { authentication_token: 'X-User-Token', username: 'X-User-Username' } }
   #
   #
@@ -60,4 +59,3 @@ SimpleTokenAuthentication.configure do |config|
   # config.skip_devise_trackable = true
   #
 end
-

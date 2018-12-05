@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       end
       get 'thumbs', to: 'tumbs#show'
       get 'collection/:url', to: 'public_collections#show'
-      #put 'profile/password', to: 'passwords#change'
+      # put 'profile/password', to: 'passwords#change'
       devise_scope :user do
         post 'sign_in', to: 'sessions#create'
         post '/sign_up', to: 'registrations#create'

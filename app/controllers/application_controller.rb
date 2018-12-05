@@ -7,6 +7,7 @@ class ApplicationController < ActionController::API
   include Response
   include ExceptionHandler
   respond_to :html
+
   private
 
   def current_user

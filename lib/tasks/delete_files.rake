@@ -1,6 +1,6 @@
-desc "delete screenshots every day"
+desc 'delete screenshots every day'
 task delete_files: :environment do
-  mas = Tumb.all.select { |x| x.created_at < (Time.now - 1.day) }.map { |x| x.screen_url + '.png' }
+  mas = Tumb.where('created_at < ?', Time.now - 1.day).map { |x| x.screen_url + '.png' }
   image_path = "#{Rails.root}/public/screenshots/"
   Dir.foreach(image_path) do |file|
     if mas.include?(file)
@@ -8,5 +8,5 @@ task delete_files: :environment do
       File.delete(image_path + file)
     end
   end
-  puts "Done!"
+  puts 'Done!'
 end

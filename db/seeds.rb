@@ -38,4 +38,4 @@ hash_links = 100.times.map do
     collection: collections.sample
   }
 end
-links = Link.create! hash_links
+Link.create! hash_links

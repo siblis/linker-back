@@ -25,7 +25,7 @@ class Api::V1::CollectionsController < ApplicationController
   # GET /collections/:id
   def show
     if @collection.user_id == current_user.id
-      render json: @collection.as_json.merge(except: :id), status: 200
+      render json: @collection.as_json(except: :id), status: 200
     else
       render status: 404
     end

@@ -7,7 +7,7 @@ class Api::V1::CollectionsController < ApplicationController
   def index
     if current_user
       @collections = current_user.collections
-      render json: @collections.as_json(include: :links), status: 200
+      render json: @collections, status: 200
     else
       render status: 404
     end
@@ -19,13 +19,13 @@ class Api::V1::CollectionsController < ApplicationController
     @collection.user_id = current_user.id
     @collection.url = SecureRandom.urlsafe_base64
     @collection.save
-    render json: @collection.as_json(except: :id), status: 200
+    render json: @collection.as_json(except: [:id]), status: 200
   end
 
   # GET /collections/:id
   def show
     if @collection.user_id == current_user.id
-      render json: @collection.as_json(except: :id), status: 200
+      render json: @collection.as_json(except: [:id]), status: 200
     else
       render status: 404
     end
@@ -36,7 +36,7 @@ class Api::V1::CollectionsController < ApplicationController
     if @collection.user_id == current_user.id
       @collection.links.destroy_all
       @collection.update(collection_params)
-      render json: @collection.as_json(except: :id), status: 200
+      render json: @collection.as_json(except: [:id]), status: 200
     else
       render status: 404
     end

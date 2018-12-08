@@ -1,0 +1,2 @@
+class Tumb < ApplicationRecord
+end

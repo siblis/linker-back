@@ -3,9 +3,11 @@ class ApplicationController < ActionController::API
   include ActionController::ImplicitRender
   include ActionController::Helpers
   include ActionController::Flash
+  include ActionController::MimeResponds
   include Response
   include ExceptionHandler
   respond_to :html
+
   private
 
   def current_user
@@ -15,8 +17,6 @@ class ApplicationController < ActionController::API
     if user && Devise.secure_compare(user.authentication_token, request.query_parameters[:user_token])
       user = User.find_by_email(user_email)
       return user
-    else
-      render json: '{"success" : "false"}'
     end
   end
 

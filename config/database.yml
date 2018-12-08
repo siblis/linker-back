@@ -83,6 +83,6 @@ production:
   encoding: utf8
 # hostname: <%= ENV['DATABASE_HOSTNAME'] %>
 # port: <%= ENV['DATABASE_PORT'] %>
-  database: linker_production 
-  username: deploy 
-  password: deploy 
+  database: <%= ENV['DATABASE_NAME'] %> 
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %> 

@@ -31,3 +31,18 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: "422"
+              taken: "423"
+              invalid: "422"
+            password:
+              blank: "425"
+              too_short: "425"
+            password_confirmation:
+              blank: "424"
+              invalid: "424"
